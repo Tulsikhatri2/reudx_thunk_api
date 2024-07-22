@@ -1,35 +1,50 @@
-import React from 'react'
-import {  List } from "@mui/material"
-import ListItemData from './ListItemData'
+import React, {useEffect} from 'react'
+import { Box, List } from "@mui/material"
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { Typography } from "@mui/material"
+import { deleteListData, editListData } from '../Redux/ListItemsData/Action'
 import { fetchData } from '../Redux/ListItemsData/Action'
 
 const ListData = () => {
 
   const { list } = useSelector(state => state.crud)
-  console.log(list)
   const dispatch = useDispatch()
 
-  // useEffect(()=>{
-  //   dispatch(fetchData())
-  // },[dispatch])
+  console.log(list, "from ListData")
 
-  // function showData() {
-  //   dispatch(fetchData())
-  // }
- 
+  useEffect(()=>{
+    dispatch(fetchData())
+  },[dispatch])
 
-if(!list||list.length==0){
-  return <h2>ToDo Not Yet</h2>
-}
+  function editData(list) {
+   dispatch(editListData(list))
+  }
+
+  function deleteData(_id) {
+    dispatch(deleteListData(_id))
+  }
+
+  if (!list || list.length === 0) {
+    return <h2>No Data Yet</h2>
+  }
   return (
     <>
       <List>
         {
-         list.map((item, index) => {
+          list.map((item) => {
             return (
-              <ListItemData key={item._id}  item={item} index={index}/>
+
+              <List key={item._id} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <Box>
+                  <Typography variant='h5'> {item.title}</Typography>
+                  <Typography variant='h6'> {item.description}</Typography>
+                </Box>
+                <Box>
+                  < button onClick={() => editData(item)}> Edit</button>
+                  < button onClick={() => deleteData(item._id)}> Delete</button>
+                </Box>
+              </List>
+              
             )
           })
         }

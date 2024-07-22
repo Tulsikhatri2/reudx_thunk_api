@@ -1,23 +1,27 @@
 import axios from "axios";
-
+const API_URL = "https://listtimes.onrender.com/api/todo";
 
 export const fetchData = () => {
-    return async(dispatch) => {
-        dispatch(fetchDataRequest())
-        try{
-        const response =await axios.get("https://listtimes.onrender.com/api/todo")
-        console.log(response)
-        dispatch(fetchDataSuccess(response.data))
+        return async (dispatch) => {
+                const response = await axios.get(API_URL)
+                dispatch(fetchDataSuccess(response.data))
         }
-        catch(error){
-        console.log(error)
-        }
-    }
 }
 
-export const fetchDataRequest = () => ({
-        type: "FETCH_DATA"
-})
+export const createData = async (listItem) => {
+        const response = await axios.post(API_URL + "/", listItem)
+        return response
+}
+
+export const deleteData = async (_id) => {
+        const response = await axios.delete(API_URL + '/' + _id);
+        return response
+}
+
+export const updateData = async (item) => {
+        const response = await axios.put(API_URL + '/' + item._id, { title: item.title, description: item.description });
+        return response.data
+}
 
 export const fetchDataSuccess = (list) => ({
         type: "FETCH_DATA_SUCCESS",
@@ -34,8 +38,8 @@ export const deleteListData = (_id) => ({
         payload: _id
 })
 
-export const updatingListData = (listData) =>({
-        type: "UPDATING_DATA",
+export const editListData = (listData) => ({
+        type: "EDIT_LIST_DATA",
         payload: listData
 })
 

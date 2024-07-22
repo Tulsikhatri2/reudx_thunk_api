@@ -1,53 +1,56 @@
-import axios from "axios"
+import { createData, deleteData, updateData } from "./Action"
 const initialState = {
-    list:[],
-    loading : false,
-    error : null
+    list: [],
+    loading: false,
+    error: null,
+    edit: { list: {}, isEdit: false }
 }
 
-const crudReducer = (state = initialState,action) => {
 
-    switch(action.type){
+const crudReducer = (state = initialState, action) => {
+
+    switch (action.type) {
 
         case "FETCH_DATA":
-            return{
-              ...state
+            return {
+                ...state
             }
-        
+
         case "FETCH_DATA_SUCCESS":
-            return{
+            return {
                 ...state,
-                list:action.payload
+                list: action.payload
             }
 
         case "DELETE_LIST_DATA":
-            const index = action.payload
-            const afterDelete = axios.delete("https://listtimes.onrender.com/api/todo/" + index)
-            return{
+            const _id = action.payload
+            deleteData(_id)
+            const info = [...state.list]
+            return {
                 ...state,
-                list: afterDelete
+                list: info.filter((data) => data._id !== _id)
             }
 
         case "CREATE_LIST_DATA":
             const listInfo = action.payload
-            const data = axios.post("https://listtimes.onrender.com/api/todo/", listInfo)
-            return{
+            createData(listInfo)
+            return {
                 ...state,
-                list: [data, ...state.list]
+                list: [...state.list, listInfo]
             }
 
-        case "UPDATING_DATA":
-            return{
-                
+        case "EDIT_LIST_DATA":
+            return {
+                ...state,
+                edit: { list: action.payload, isEdit: true }
             }
 
         case "UPDATE_LIST_DATA":
-            const updated = action.payload
-            const id = action.payload.id
-            const updatedInfo = axios.put(`https://listtimes.onrender.com/api/todo/${id}`,updated)
-            return{
+            updateData(action.payload)
+            return {
                 ...state,
-                list: updatedInfo
+                list: state.list.map((item) => item._id === action.payload._id ? action.payload : item),
+                edit: { list: {}, isEdit: false }
             }
 
         default:

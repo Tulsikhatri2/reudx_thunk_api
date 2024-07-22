@@ -4,28 +4,48 @@ import { FormControl } from "@mui/material"
 import { TextField } from "@mui/material"
 import { Button } from "@mui/material"
 import ListData from './ListData'
-import { useDispatch } from 'react-redux'
-import { creteListData } from '../Redux/ListItemsData/Action'
-import { fetchData } from '../Redux/ListItemsData/Action'
+import { useDispatch, useSelector } from 'react-redux'
+import { creteListData, updateListData } from '../Redux/ListItemsData/Action'
 
     
 const Form = () => {
 
     const [listItems, setListItems] = useState({ title: "", description: "" })
+    const {edit} = useSelector(state=> state.crud)
     const dispatch = useDispatch()
+    console.log(edit)
 
-    useEffect(()=>{
-        dispatch(fetchData())
-      },[dispatch])
+    const {title, description} = listItems
 
     function handleChange(e) {
+        e.preventDefault()
         setListItems({ ...listItems, [e.target.name]: e.target.value })
     }
 
     function handleSubmit(e) {
         e.preventDefault()
-        dispatch(creteListData(listItems))
+        if(edit.isEdit){
+           dispatch(updateListData({
+            _id:edit.list._id,
+            title,
+            description
+           }))
+        }
+        else{
+            dispatch(creteListData(listItems))
+        }
+        setListItems({
+            title:"",
+            description:"" 
+    })
     }
+
+    useEffect(()=>{
+        setListItems({
+            title: edit.list.title,
+            description: edit.list.description
+        })
+    },[edit])
 
     return (
         <>
