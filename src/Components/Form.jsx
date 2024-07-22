@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid } from '@mui/material'
 import { FormControl } from "@mui/material"
 import { TextField } from "@mui/material"
@@ -6,18 +6,23 @@ import { Button } from "@mui/material"
 import ListData from './ListData'
 import { useDispatch } from 'react-redux'
 import { creteListData } from '../Redux/ListItemsData/Action'
+import { fetchData } from '../Redux/ListItemsData/Action'
 
-
+    
 const Form = () => {
 
     const [listItems, setListItems] = useState({ title: "", description: "" })
     const dispatch = useDispatch()
-    
-    function handleChange(e){
-        setListItems({...listItems,[e.target.name]:e.target.value})
+
+    useEffect(()=>{
+        dispatch(fetchData())
+      },[dispatch])
+
+    function handleChange(e) {
+        setListItems({ ...listItems, [e.target.name]: e.target.value })
     }
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault()
         dispatch(creteListData(listItems))
     }

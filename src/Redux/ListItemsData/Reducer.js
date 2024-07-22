@@ -33,7 +33,8 @@ const crudReducer = (state = initialState,action) => {
             const data = axios.post("https://listtimes.onrender.com/api/todo/", listInfo)
             return{
                 ...state,
-                list: [data, ...state.list]            }
+                list: [data, ...state.list]
+            }
 
         case "UPDATING_DATA":
             return{

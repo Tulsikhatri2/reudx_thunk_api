@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 
 
-const ListItemData = ({ item, index }) => {
+const ListItemData = ({ item, index, key }) => {
 
   // const {list} = useSelector(state=>state.crud)
   const dispatch = useDispatch()
@@ -18,13 +18,11 @@ const ListItemData = ({ item, index }) => {
 
   function updateData(_id){
     const response = axios.get("https://listtimes.onrender.com/api/todo")
-    const oneData = response.data
-    console.log(oneData)
   }
 
   return (
     <div>
-      < ListItem sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+      < ListItem key={key} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <Box>
           <Typography variant='h5'> {item.title}</Typography>
           <Typography variant='h6'> {item.description}</Typography>

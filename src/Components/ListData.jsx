@@ -11,9 +11,9 @@ const ListData = () => {
   console.log(list)
   const dispatch = useDispatch()
 
-  useEffect(()=>{
-    dispatch(fetchData())
-  },[dispatch])
+  // useEffect(()=>{
+  //   dispatch(fetchData())
+  // },[dispatch])
 
   // function showData() {
   //   dispatch(fetchData())
@@ -29,7 +29,7 @@ if(!list||list.length==0){
         {
          list.map((item, index) => {
             return (
-              <ListItemData item={item} key={item._id} index={index}/>
+              <ListItemData key={item._id}  item={item} index={index}/>
             )
           })
         }
