@@ -1,4 +1,3 @@
-import { createData, deleteData, updateData } from "./Action"
 const initialState = {
     list: [],
     edit: { list: {}, isEdit: false }
@@ -21,16 +20,16 @@ const crudReducer = (state = initialState, action) => {
 
         case "CREATE_LIST_DATA":
             const listInfo = action.payload
-            createData(listInfo)
+            const data = [...state.list]
+            data.push(listInfo)
             return {
                 ...state,
-                list: [...state.list, listInfo]
+                list: data,
             }
 
 
         case "DELETE_LIST_DATA":
             const _id = action.payload
-            deleteData(_id)
             const info = [...state.list]
             return {
                 ...state,
@@ -44,7 +43,6 @@ const crudReducer = (state = initialState, action) => {
             }
 
         case "UPDATE_LIST_DATA":
-            updateData(action.payload)
             return {
                 ...state,
                 list: state.list.map((item) => item._id === action.payload._id ? action.payload : item),
