@@ -9,7 +9,7 @@ import { Bounce, toast } from 'react-toastify';
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if ((error.response && error.response.status === 404 )|| (error.response && error.response.status === 401 ) ||  (error.response && error.response.status === 502 )) {
+    if (error.response) {
     //   console.log('call the refresh token api here')
      toast.error(error.message, {
         position: "top-center",
