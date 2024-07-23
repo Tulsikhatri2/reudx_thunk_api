@@ -7,15 +7,14 @@ import ListData from './ListData'
 import { useDispatch, useSelector } from 'react-redux'
 import { creteListData, updateListData } from '../Redux/ListItemsData/Action'
 
-    
+
 const Form = () => {
 
     const [listItems, setListItems] = useState({ title: "", description: "" })
-    const {edit} = useSelector(state=> state.crud)
+    const { edit } = useSelector(state => state.crud)
     const dispatch = useDispatch()
-    console.log(edit)
 
-    const {title, description} = listItems
+    const { title, description } = listItems
 
     function handleChange(e) {
         e.preventDefault()
@@ -24,35 +23,35 @@ const Form = () => {
 
     function handleSubmit(e) {
         e.preventDefault()
-        if(edit.isEdit){
-           dispatch(updateListData({
-            _id:edit.list._id,
-            title,
-            description
-           }))
+        if (edit.isEdit) {
+            dispatch(updateListData({
+                _id: edit.list._id,
+                title,
+                description
+            }))
         }
-        else{
+        else {
             dispatch(creteListData(listItems))
         }
         setListItems({
-            title:"",
-            description:"" 
-    })
+            title: "",
+            description: ""
+        })
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setListItems({
             title: edit.list.title,
             description: edit.list.description
         })
-    },[edit])
+    }, [edit])
 
     return (
         <>
             <Grid container spacing={2}>
-                <Grid item xs={8} md={1}></Grid>
+                <Grid item md={1}></Grid>
 
-                <Grid item xs={8} md={4} align="center">
+                <Grid item md={4} sx={{ mt: 18 }} align="center">
                     <h2><u>Enter Data</u></h2>
 
 
@@ -74,18 +73,33 @@ const Form = () => {
                             name="description"
                             size="small"></TextField>
 
-                        <Button variant="contained"
-                            size="large"
-                            type="submit"
-                            onClick={handleSubmit}
-                            sx={{ mt: 2, fontWeight: 600 }}>
-                            SUBMIT
-                        </Button>
+                        {
+                            !edit.isEdit ?
+                                (
+                                    <Button variant="contained"
+                                        size="large"
+                                        type="submit"
+                                        onClick={handleSubmit}
+                                        sx={{ mt: 2, fontWeight: 600, fontSize: 13 }}>
+                                        SUBMIT
+                                    </Button>
+                                ) :
+                                (
+                                    <Button variant="contained"
+                                        color="warning"
+                                        size="large"
+                                        type="submit"
+                                        onClick={handleSubmit}
+                                        sx={{ mt: 2, fontWeight: 600, fontSize: 13 }}>
+                                        UPDATE
+                                    </Button>
+                                )
+                        }
                     </FormControl>
 
                 </Grid>
 
-                <Grid item xs={8} md={7} align="center">
+                <Grid item md={7} align="center">
                     <ListData />
                 </Grid>
             </Grid>
