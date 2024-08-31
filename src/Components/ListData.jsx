@@ -11,7 +11,7 @@ const ListData = () => {
 
   useEffect(() => {
     dispatch(fetchData());
-  }, []);
+  }, [dispatch]);
 
   function editData(list) {
     dispatch(editListData(list));

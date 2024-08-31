@@ -1,16 +1,14 @@
 import axios from 'axios'
-import { Bounce, toast } from 'react-toastify';
+import { toast, Zoom } from 'react-toastify';
 
  const axiosInstance= axios.create({
   baseURL: 'https://listtimes.onrender.com/api/todo',
-  // other configurations
 })
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response) {
-    //   console.log('call the refresh token api here')
+    if (error) {
      toast.error(error.message, {
         position: "top-center",
         autoClose: 1000,
@@ -20,10 +18,8 @@ axiosInstance.interceptors.response.use(
         draggable: true,
         progress: undefined,
         theme: "dark",
-        transition: Bounce,
+        transition: Zoom,
         });
-
-      // Handle 401 error, e.g., redirect to login or refresh token
     }
     return Promise.reject(error)
   },

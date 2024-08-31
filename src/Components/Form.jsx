@@ -47,10 +47,6 @@ const Form = () => {
 
   return (
     <>
-      <Grid container spacing={2}>
-        <Grid item md={1}></Grid>
-
-        <Grid item md={4} sx={{ mt: 18 }} align="center">
           <h2>
             <u>Enter Data</u>
           </h2>
@@ -99,12 +95,6 @@ const Form = () => {
               </Button>
             )}
           </FormControl>
-        </Grid>
-
-        <Grid item md={7} align="center">
-          <ListData />
-        </Grid>
-      </Grid>
     </>
   );
 };
